@@ -1,0 +1,14 @@
+basePath:  https://serverest.dev
+
+users:
+  createdUser: /usuarios
+  listUsers: /usuarios
+  userById: /usuarios/
+
+login: /login
+
+product:
+  registerProduct: /produtos
+  listProducts: /produtos
+  findProdutctById: /produtos/
+
