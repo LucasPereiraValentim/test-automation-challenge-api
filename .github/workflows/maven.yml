@@ -1,6 +1,5 @@
 name: Automação de Testes
 
-# Permite execução manual
 on:
   workflow_dispatch:
     inputs:
@@ -27,9 +26,7 @@ jobs:
 
       - name: Build & Run Tests
         if: ${{ github.event.inputs.run_tests == 'true' }}
-        run: |
-          echo "Running tests on environment: ${{ github.event.inputs.environment }}"
-          mvn clean verify -Denv=${{ github.event.inputs.environment }}
+        run: mvn clean verify
 
       - name: Generate Allure Report
         if: ${{ github.event.inputs.run_tests == 'true' }}
@@ -40,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
-          path: target/site/allure-maven-plugin
+          path: allure-results # ajustado para a raiz do projeto
 
       - name: Upload Test Results
         if: ${{ github.event.inputs.run_tests == 'true' }}
