@@ -9,4 +9,6 @@ login: /login
 
 product:
   registerProduct: /produtos
+  listProducts: /produtos
+  findProdutctById: /produtos/
 
