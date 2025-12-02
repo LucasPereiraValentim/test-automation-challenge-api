@@ -2,7 +2,7 @@
 
 Este projeto é uma solução para o desafio de testes de API, implementado em **Java 11**, demonstrando habilidades em **JUnit 5**, **RestAssured**, **Lombok**, geração de relatórios com **Allure**, boas práticas de organização de código em camadas e gestão de recursos de teste.
 
-O objetivo é validar cenários de login, cadastros e operações de produtos, com automação completa, paralelismo e relatórios detalhados.
+O objetivo é validar cenários de login, cadastros e operações de produtos, com automação completa e relatórios detalhados.
 
 ---
 
