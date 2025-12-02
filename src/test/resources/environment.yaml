@@ -7,3 +7,6 @@ users:
 
 login: /login
 
+product:
+  registerProduct: /produtos
+

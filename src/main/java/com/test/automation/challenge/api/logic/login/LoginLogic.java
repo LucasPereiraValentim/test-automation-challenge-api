@@ -19,7 +19,7 @@ public class LoginLogic {
 
     private String password;
 
-    public static String authorization;
+    private static String authorization;
 
     private Assert anAssert;
 
@@ -29,8 +29,16 @@ public class LoginLogic {
         this.anAssert = new Assert();
     }
 
+    public static String getAuthorization() {
+        return authorization;
+    }
+
     private HashMap<String, Object> getJsonRequest(String scenario) {
         HashMap<String, Object> jsonRequest = FileUtils.readJsonAsMap("login/login.json");
+
+        if (scenario.contains("usuário sem permissão de admin")) {
+            jsonRequest = FileUtils.readJsonAsMap("login/login_with_non_admin_user.json");
+        }
 
         userName = jsonRequest.get("email").toString();
 
