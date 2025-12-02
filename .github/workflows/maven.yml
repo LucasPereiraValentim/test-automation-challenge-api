@@ -4,15 +4,6 @@ name: Java CI with Maven and Allure
 on:
   workflow_dispatch:
     inputs:
-      environment:
-        description: 'Escolha o ambiente da API'
-        required: false
-        default: 'dev'
-        type: choice
-        options:
-          - dev
-          - qa
-          - prod
       run_tests:
         description: 'Rodar testes?'
         required: true
