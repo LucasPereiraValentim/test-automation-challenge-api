@@ -26,19 +26,15 @@ jobs:
 
       - name: Clean Allure Results
         if: ${{ github.event.inputs.run_tests == 'true' }}
-        run: rm -rf allure-results/* target/site/allure-maven-plugin/*
+        run: rm -rf allure-results/*
 
       - name: Build & Run Tests
         if: ${{ github.event.inputs.run_tests == 'true' }}
         run: mvn clean verify
 
-      - name: Generate Allure HTML Report
-        if: ${{ github.event.inputs.run_tests == 'true' }}
-        run: mvn allure:report
-
-      - name: Upload Allure HTML Report
+      - name: Upload Allure Results
         if: ${{ github.event.inputs.run_tests == 'true' }}
         uses: actions/upload-artifact@v4
         with:
-          name: allure-html-report
-          path: target/site/allure-maven-plugin
+          name: allure-results
+          path: allure-results
