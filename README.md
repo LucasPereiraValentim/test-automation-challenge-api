@@ -141,8 +141,34 @@ Se cada comando retornar a versão correta, as variáveis estão configuradas.
 
     allure serve ./allure-results
 
+## 🟢 Pipeline de Testes Automatizados (GitHub Actions)
+
+O projeto possui uma pipeline para executar os testes e gerar os resultados do Allure:
+
+Como executar
+   ```bash
+      Acesse a aba Actions no repositório.
+      Selecione o workflow Automação de Testes.
+      Clique em Run workflow e confirme.
+      Passos executados
+      Checkout do repositório.
+      Configuração do JDK 11 e Maven com cache de dependências.
+      Limpeza de resultados antigos (allure-results).
+      Build e execução dos testes via Maven (mvn clean verify).
+      Upload do diretório allure-results como artefato.
+      Como acessar o relatório
+      Após a execução, vá em Actions → [execução do workflow] → Artifacts → allure-results.
+      Baixe o ZIP e extraia em uma pasta local.
+      Entre na pasta onde os arquivos .json e .txt estão e rode:
+
+      allure serve .
 
 
+   É importante rodar allure serve . dentro do diretório onde os arquivos do artefato foram extraídos, para que os gráficos e resultados sejam carregados corretamente.
 
+   O Allure vai gerar o HTML dinamicamente e abrir um servidor local com todos os detalhes dos testes.
 
+---
 
+### ✍️ Desenvolvido por
+**Lucas Pereira Valentim** – Testes automatizados, café e código 💻☕
