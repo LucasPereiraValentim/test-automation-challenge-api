@@ -24,6 +24,11 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      # Limpa resultados antigos do Allure
+      - name: Clean Allure Results
+        if: ${{ github.event.inputs.run_tests == 'true' }}
+        run: rm -rf allure-results/*
+
       - name: Build & Run Tests
         if: ${{ github.event.inputs.run_tests == 'true' }}
         run: mvn clean verify
@@ -31,17 +36,10 @@ jobs:
       - name: Generate Allure Report
         if: ${{ github.event.inputs.run_tests == 'true' }}
         run: mvn allure:report
-
+        
       - name: Upload Allure Report
         if: ${{ github.event.inputs.run_tests == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
-          path: allure-results # ajustado para a raiz do projeto
-
-      - name: Upload Test Results
-        if: ${{ github.event.inputs.run_tests == 'true' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: target/surefire-reports/
+          path: allure-results
