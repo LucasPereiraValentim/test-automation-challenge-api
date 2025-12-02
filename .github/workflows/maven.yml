@@ -1,4 +1,4 @@
-name: Java CI with Maven and Allure
+name: Automação de Testes
 
 # Permite execução manual
 on:
