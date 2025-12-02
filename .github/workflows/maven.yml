@@ -1,0 +1,39 @@
+name: Java CI with Maven and Allure
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Pega o código
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Configura JDK 11 e cache Maven
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: maven
+
+      # 3️⃣ Build do projeto e execução de todos os testes (incluindo RestAssured)
+      - name: Build & Run Tests
+        run: mvn clean verify
+
+      # 4️⃣ Gera o relatório Allure
+      - name: Generate Allure Report
+        run: mvn allure:report
+
+      # 5️⃣ Sobe o relatório Allure como artefato
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: target/site/allure-maven-plugin
