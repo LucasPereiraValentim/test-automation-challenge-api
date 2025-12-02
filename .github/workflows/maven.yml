@@ -10,7 +10,7 @@ on:
         type: boolean
 
 jobs:
-  build-and-test:
+  build-and-report:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,25 +26,19 @@ jobs:
 
       - name: Clean Allure Results
         if: ${{ github.event.inputs.run_tests == 'true' }}
-        run: rm -rf allure-results/*
+        run: rm -rf allure-results/* target/site/allure-maven-plugin/*
 
       - name: Build & Run Tests
         if: ${{ github.event.inputs.run_tests == 'true' }}
         run: mvn clean verify
 
-      - name: Generate Allure Report
+      - name: Generate Allure HTML Report
         if: ${{ github.event.inputs.run_tests == 'true' }}
         run: mvn allure:report
 
-      - name: Publish Allure Report
-        if: ${{ github.event.inputs.run_tests == 'true' }}
-        uses: allure-framework/allure-action@v2
-        with:
-          results: allure-results
-
-      - name: Upload Test Results
+      - name: Upload Allure HTML Report
         if: ${{ github.event.inputs.run_tests == 'true' }}
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
-          path: target/surefire-reports/
+          name: allure-html-report
+          path: target/site/allure-maven-plugin
