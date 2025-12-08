@@ -18,8 +18,7 @@ public class LoginTest {
 
     private LoginLogic loginLogic;
 
-    @BeforeEach
-    public void before() {
+    public LoginTest() {
         this.loginLogic = new LoginLogic();
     }
 

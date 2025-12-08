@@ -4,7 +4,11 @@ public enum StatusCode {
 
     SUCCESS_OK(200, ""),
 
-    SUCESS_CREATED(201, ""),
+    SUCCESS_OK_DELETE_SUCCESS(200, "Registro excluído com sucesso"),
+
+    SUCCESS_OK_UPDATE_SUCCESS(200, "Registro alterado com sucesso"),
+
+    SUCESS_CREATED(201, "Cadastro realizado com sucesso"),
 
     UNAUTHORIZED(401, "Email e/ou senha inválidos"),
 
