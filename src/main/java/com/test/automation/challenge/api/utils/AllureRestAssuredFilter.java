@@ -16,14 +16,24 @@ public class AllureRestAssuredFilter implements Filter {
 
         Response response = ctx.next(requestSpec, responseSpec);
 
-        Allure.addAttachment("Request para URL: " + requestSpec.getURI(),
-                requestSpec.getMethod() + " " + requestSpec.getURI() +
-                        "\nHeaders: " + requestSpec.getHeaders() +
-                        "\nBody: " + (requestSpec.getBody() != null ? requestSpec.getBody() : "N/A"));
+        String requestBody = requestSpec.getBody() != null
+                ? requestSpec.getBody().toString()
+                : "N/A";
 
-        Allure.addAttachment("Response",
-                "Status: " + response.getStatusCode() +
-                        "\nBody: " + response.getBody().asPrettyString());
+        Allure.addAttachment(
+                "Request",
+                "Method: " + requestSpec.getMethod() +
+                        "\nURL: " + requestSpec.getURI() +
+                        "\nHeaders: " + requestSpec.getHeaders() +
+                        "\nBody:\n" + requestBody
+        );
+
+        Allure.addAttachment(
+                "Response (" + response.getStatusCode() + ")",
+                "application/json",
+                response.getBody().asPrettyString(),
+                "json"
+        );
 
         return response;
     }

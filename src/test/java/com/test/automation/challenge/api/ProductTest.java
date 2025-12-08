@@ -4,6 +4,7 @@ package com.test.automation.challenge.api;
 import com.test.automation.challenge.api.enums.StatusCode;
 import com.test.automation.challenge.api.logic.login.LoginLogic;
 import com.test.automation.challenge.api.logic.product.ProductLogic;
+import com.test.automation.challenge.api.logic.user.UserLogic;
 import com.test.automation.challenge.api.utils.APIUtils;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
@@ -17,10 +18,13 @@ public class ProductTest {
 
     private ProductLogic registerProduct;
 
-    @BeforeEach
-    public void before() {
+    private UserLogic createUserLogic;
+
+    public ProductTest() {
         this.loginLogic         = new LoginLogic();
         this.registerProduct    = new ProductLogic();
+        this.createUserLogic    = new UserLogic();
+
     }
 
     @Story("Realizar cadastro de produto com sucesso")
@@ -119,6 +123,7 @@ public class ProductTest {
     public void registerProductWithNonAdminUserTest() {
         String scenario = APIUtils.getDisplayName(this.getClass(), "registerProductWithNonAdminUserTest");
         Allure.step(scenario, () -> {
+            this.createUserLogic.performCreateUser(scenario);
             this.loginLogic
                     .performLogin(scenario)
                     .assertLoginSuccess(StatusCode.SUCCESS_OK.getCode());

@@ -38,7 +38,7 @@ public class ProductLogic {
     }
 
     public ProductLogic performRegisterProduct(String scenario) {
-        String url = YamlUtils.getValueFromYaml("basePath") + YamlUtils.getValueFromYaml("product.registerProduct");
+        String url = YamlUtils.getValueFromYaml("basePath") + YamlUtils.getValueFromYaml("product.registerAndListProduct");
 
         log.info("Request enviada: {}", url);
 
@@ -58,7 +58,7 @@ public class ProductLogic {
 
     public ProductLogic getListProducts() {
 
-        String url = YamlUtils.getValueFromYaml("basePath") + YamlUtils.getValueFromYaml("product.listProducts");
+        String url = YamlUtils.getValueFromYaml("basePath") + YamlUtils.getValueFromYaml("product.registerAndListProduct");
 
         log.info("Request enviada: {}", url);
 
@@ -160,7 +160,7 @@ public class ProductLogic {
 
     public ProductLogic assertListProductAfter(int statusCode) {
 
-        int index = APIUtils.getIndexByIdProduct(this.response, this.idProduct, "produtos");
+        int index = APIUtils.getIndexById(this.response, this.idProduct, "produtos");
 
         this.anAssert.assertStatusCode(statusCode, this.response)
                 .assertAtributeResponse(this.getNameProduct(), this.response, "produtos[" + index + "].nome")

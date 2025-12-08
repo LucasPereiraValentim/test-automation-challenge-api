@@ -1,5 +1,6 @@
 package com.test.automation.challenge.api.logic.login;
 
+import com.test.automation.challenge.api.logic.user.UserLogic;
 import com.test.automation.challenge.api.utils.Assert;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -15,7 +16,7 @@ import static io.restassured.RestAssured.given;
 @Slf4j
 public class LoginLogic {
 
-    private String userName;
+    private String email;
 
     private String password;
 
@@ -37,32 +38,29 @@ public class LoginLogic {
         HashMap<String, Object> jsonRequest = FileUtils.readJsonAsMap("login/login.json");
 
         if (scenario.contains("usuário sem permissão de admin")) {
-            jsonRequest = FileUtils.readJsonAsMap("login/login_with_non_admin_user.json");
+            email = UserLogic.email;
+            jsonRequest.put("email", email);
         }
 
-        userName = jsonRequest.get("email").toString();
-
         if (scenario.contains("usuário inválido")) {
-            this.userName = "usuarioInvalido";
-            jsonRequest.put("email", userName);
+            this.email = "usuarioInvalido";
+            jsonRequest.put("email", email);
         } else if (scenario.contains("senha inválida")) {
             this.password = "senhaInvalida";
             jsonRequest.put("password", password);
         } else if (scenario.contains("usuário vazio")) {
-            this.userName = "";
-            jsonRequest.put("email", userName);
+            this.email = "";
+            jsonRequest.put("email", email);
         } else if (scenario.contains("senha vazia")) {
             this.password = "";
             jsonRequest.put("password", password);
         } else if (scenario.contains("usuário nulo")) {
-            this.userName = null;
-            jsonRequest.put("email", userName);
+            this.email = null;
+            jsonRequest.put("email", email);
         } else if (scenario.contains("senha nula")) {
             this.password = null;
             jsonRequest.put("password", password);
         }
-
-        log.info("Realizando login para o usuário: {}", userName);
 
         return jsonRequest;
     }

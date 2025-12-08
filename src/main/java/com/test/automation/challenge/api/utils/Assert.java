@@ -1,9 +1,16 @@
 package com.test.automation.challenge.api.utils;
 
+import io.qameta.allure.Allure;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Objects;
+
 import static io.qameta.allure.Allure.step;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class Assert {
 
@@ -43,5 +50,48 @@ public class Assert {
         return this;
     }
 
+    public Assert assertJsonArrayIsEmpty(Response response, String jsonExpression) {
+        List<?> array = response.jsonPath().getList(jsonExpression);
+
+        Assertions.assertNotNull(array, "O atributo '" + jsonExpression + "' não pode ser nulo");
+        Assertions.assertTrue(array.isEmpty(), "O array '" + jsonExpression + "' deve estar vazio");
+
+        step("Array '" + jsonExpression + "' está vazio", () -> {
+            if (!array.isEmpty()) {
+                throw new AssertionError("Array '" + jsonExpression + "' esperado vazio, encontrado tamanho: " + array.size());
+            }
+        });
+
+        return this;
+    }
+
+    public Assert assertJsonSchema(String json, String schemaPath) {
+        anexarSchemaNoAllure(schemaPath);
+        anexarJsonNoAllure(json);
+
+        assertThat(json,
+                JsonSchemaValidator.matchesJsonSchemaInClasspath(schemaPath)
+        );
+        return this;
+    }
+
+    private void anexarSchemaNoAllure(String schemaPath) {
+        try {
+            String schema = new String(
+                    Objects.requireNonNull(
+                            APIUtils.class.getClassLoader().getResourceAsStream(schemaPath)
+                    ).readAllBytes(),
+                    StandardCharsets.UTF_8
+            );
+
+            Allure.addAttachment("Schema Validado: " + schemaPath,
+                    "application/json", schema, "json");
+
+        } catch (Exception ignored) {}
+    }
+
+    private static void anexarJsonNoAllure(String json) {
+        Allure.addAttachment("JSON Validado", "application/json", json, "json");
+    }
 
 }
